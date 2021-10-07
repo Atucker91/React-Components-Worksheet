@@ -11,7 +11,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      jokes: [],
+      listOfJokes: [],
       firstName: 'Reggie',
       lastName: 'White',
       names: ['Mike', 'Nevin', 'Aaron', 'Tory', 'Kelly'],
@@ -42,8 +42,7 @@ class App extends Component {
     alert('devCodeCamp');
   }
 
-  createHero = (newHero) => {
-    console.log(newHero) 
+  createHero = (newHero) => { 
     let tempHero = this.state.superheroes;
     tempHero.push(newHero);
     this.setState({
@@ -55,7 +54,7 @@ class App extends Component {
   componentDidMount(){
     axios.get('https://v2.jokeapi.dev/joke/Programming?amount=5')
     .then(response => this.setState({
-      jokes: response.data
+      listOfJokes: response.data.jokes
     }))
     
   }
@@ -68,7 +67,12 @@ class App extends Component {
         <AlertUser alertButton={this.alertUser}/>
         <SuperheroTable superheroList={this.state.superheroes} />
         <SuperheroCreateForm createNewHero= {this.createHero} />
-        <h1>{this.state.jokes[this.state.jokes.setup]}</h1>
+        {this.state.listOfJokes.map(function(joke){
+                        return <div>
+                            <h1>{joke.setup}</h1>
+                            <h2>{joke.delivery}</h2>
+                        </div>
+                    })}
       </div>
     )
   }
